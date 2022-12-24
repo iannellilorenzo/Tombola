@@ -1,23 +1,35 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Security.Cryptography;
 
 class Program
 {
     static void Main()
     {
         // dichiarazione variabili
-        int righeCart = 3, colonneCart = 5, righeTab = 8, colonneTab = 10;
-        int min = 1, max = 90;
-        int xTab = 50, yTab = 1, xCart1 = 15, yCart1 = 11, xCart2 = 85, yCart2 = 11;
+        int righeCart = 3, colonneCart = 5, righeTab = 9, colonneTab = 10;
+        int min = 1, max = 9, numTab = 1, index = 0;
+        int xTab = 45, yTab = 1, xCart1 = 15, yCart1 = 12, xCart2 = 85, yCart2 = 12;
 
         // dichiarazione matrici
         int[,] tabellone = new int[righeTab, colonneTab];
         int[,] cartella1 = new int[righeCart, colonneCart];
         int[,] cartella2 = new int[righeCart, colonneCart];
 
-        // random
-        Random random = new Random();
+        // invoco funzione di stampa del tabellone
+        tab(tabellone, righeTab, colonneTab, xTab, yTab, numTab);
 
-        // stampa tabellone
+        // invoco funzione di stampa della cartella giocatore 1
+        cart1(cartella1, righeCart, colonneCart, xCart1, yCart1, min, max, index);
+
+        // invoco funzione di stampa della cartella giocatore 2
+        cart2(cartella2, righeCart, colonneCart, xCart2, yCart2, min, max);
+
+        Console.ReadKey();
+    }
+
+    // funzione stampa tabellone
+    static void tab(int[,] tabellone, int righeTab, int colonneTab, int xTab, int yTab, int numTab)
+    {
         Console.SetCursorPosition(55, 0);
         Console.WriteLine("Tabellone");
         for (int i = 0; i < righeTab; i++)
@@ -26,13 +38,19 @@ class Program
             Console.SetCursorPosition(xTab, yTab);
             for (int j = 0; j < colonneTab; j++)
             {
-                Console.Write(tabellone[i, j].ToString() + " ");
+                tabellone[i, j] = numTab;
+                Console.Write(tabellone[i, j].ToString("D2") + " ");
+                numTab++;
             }
             yTab++;
         }
+    }
 
-        // stampa cartella1
-        Console.SetCursorPosition(14, 10);
+    // funzione di stampa cartella giocatore 1
+    static void cart1(int[,] cartella1, int righeCart, int colonneCart, int xCart1, int yCart1, int min, int max, int index)
+    {
+        Random random = new Random();
+        Console.SetCursorPosition(14, 11);
         Console.WriteLine("Cartella giocatore 1");
         for (int i = 0; i < righeCart; i++)
         {
@@ -41,13 +59,25 @@ class Program
             for (int j = 0; j < colonneCart; j++)
             {
                 cartella1[i, j] = random.Next(min, max + 1);
-                Console.Write(cartella1[i, j].ToString("D2") + "  ");
+                index++;
+                if (cartella1[i, j].ToString("D2")[0] == '0' && index < 3)
+                {
+                    Console.Write(cartella1[i, 0].ToString("D2") + "  ");
+                }
+                else if (cartella1[i, j].ToString()[0] == '1')
+                {
+                    //Console.Write(cartella1[1, j].ToString("D2") + "  ");
+                }
             }
             yCart1++;
         }
+    }
 
-        // stampa cartella2
-        Console.SetCursorPosition(84, 10);
+    // funzione di stampa cartella giocatore 2
+    static void cart2(int[,] cartella2, int righeCart, int colonneCart, int xCart2, int yCart2, int min, int max)
+    {
+        Random random = new Random();
+        Console.SetCursorPosition(84, 11);
         Console.WriteLine("Cartella giocatore 2");
         for (int i = 0; i < righeCart; i++)
         {
@@ -60,7 +90,5 @@ class Program
             }
             yCart2++;
         }
-
-        Console.ReadKey();
     }
 }
