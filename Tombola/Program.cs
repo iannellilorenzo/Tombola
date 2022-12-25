@@ -6,9 +6,10 @@ class Program
     static void Main()
     {
         // dichiarazione variabili
-        int righeCart = 3, colonneCart = 5, righeTab = 9, colonneTab = 10;
+        int righeCart = 3, colonneCart = 9, righeTab = 9, colonneTab = 10;
         int min = 1, max = 9, numTab = 1, index = 0;
-        int xTab = 45, yTab = 1, xCart1 = 15, yCart1 = 12, xCart2 = 85, yCart2 = 12;
+        int xTab = 45, yTab = 1, xCart1 = 7, yCart1 = 12, xCart2 = 77, yCart2 = 12;
+        char dec = '0';
 
         // dichiarazione matrici
         int[,] tabellone = new int[righeTab, colonneTab];
@@ -19,7 +20,7 @@ class Program
         tab(tabellone, righeTab, colonneTab, xTab, yTab, numTab);
 
         // invoco funzione di stampa della cartella giocatore 1
-        cart1(cartella1, righeCart, colonneCart, xCart1, yCart1, min, max, index);
+        cart1(cartella1, righeCart, colonneCart, xCart1, yCart1, min, max, index, dec);
 
         // invoco funzione di stampa della cartella giocatore 2
         cart2(cartella2, righeCart, colonneCart, xCart2, yCart2, min, max);
@@ -47,7 +48,7 @@ class Program
     }
 
     // funzione di stampa cartella giocatore 1
-    static void cart1(int[,] cartella1, int righeCart, int colonneCart, int xCart1, int yCart1, int min, int max, int index)
+    static void cart1(int[,] cartella1, int righeCart, int colonneCart, int xCart1, int yCart1, int min, int max, int index, char dec)
     {
         Random random = new Random();
         Console.SetCursorPosition(14, 11);
@@ -60,14 +61,11 @@ class Program
             {
                 cartella1[i, j] = random.Next(min, max + 1);
                 index++;
-                if (cartella1[i, j].ToString("D2")[0] == '0' && index < 3)
+                if (cartella1[i, j].ToString("D2")[0] == dec || index < 3)
                 {
-                    Console.Write(cartella1[i, 0].ToString("D2") + "  ");
+                    Console.Write(cartella1[0, j].ToString("D2") + "  ");
                 }
-                else if (cartella1[i, j].ToString()[0] == '1')
-                {
-                    //Console.Write(cartella1[1, j].ToString("D2") + "  ");
-                }
+                dec++;
             }
             yCart1++;
         }
