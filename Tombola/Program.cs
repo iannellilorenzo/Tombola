@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using System.Security.Cryptography;
 
 class Program
@@ -9,6 +10,7 @@ class Program
         int righeCart = 3, colonneCart = 9, righeTab = 9, colonneTab = 10;
         int min = 1, max = 9, numTab = 1, index = 0;
         int xTab = 45, yTab = 1, xCart1 = 7, yCart1 = 12, xCart2 = 77, yCart2 = 12;
+        int colonneIndex = 0;
         char dec = '0';
 
         // dichiarazione matrici
@@ -20,7 +22,7 @@ class Program
         tab(tabellone, righeTab, colonneTab, xTab, yTab, numTab);
 
         // invoco funzione di stampa della cartella giocatore 1
-        cart1(cartella1, righeCart, colonneCart, xCart1, yCart1, min, max, index, dec);
+        cart1(cartella1, righeCart, colonneCart, xCart1, yCart1, min, max, index, colonneIndex, dec);
 
         // invoco funzione di stampa della cartella giocatore 2
         cart2(cartella2, righeCart, colonneCart, xCart2, yCart2, min, max);
@@ -48,22 +50,24 @@ class Program
     }
 
     // funzione di stampa cartella giocatore 1
-    static void cart1(int[,] cartella1, int righeCart, int colonneCart, int xCart1, int yCart1, int min, int max, int index, char dec)
+    static void cart1(int[,] cartella1, int righeCart, int colonneCart, int xCart1, int yCart1, int min, int max, int index, int colonneIndex, char dec)
     {
         Random random = new Random();
         Console.SetCursorPosition(14, 11);
         Console.WriteLine("Cartella giocatore 1");
+        
         for (int i = 0; i < righeCart; i++)
         {
             Console.WriteLine();
             Console.SetCursorPosition(xCart1, yCart1);
             for (int j = 0; j < colonneCart; j++)
             {
-                cartella1[i, j] = random.Next(min, max + 1);
+                cartella1[i, colonneIndex] = random.Next(min, max + 1);
                 index++;
-                if (cartella1[i, j].ToString("D2")[0] == dec || index < 3)
+                if (cartella1[i, colonneIndex].ToString("D2")[0] == dec || index < 3)
                 {
-                    Console.Write(cartella1[0, j].ToString("D2") + "  ");
+                    Console.SetCursorPosition(xCart1, yCart1++);
+                    Console.WriteLine(cartella1[i, colonneIndex].ToString("D2"));
                 }
                 dec++;
             }
