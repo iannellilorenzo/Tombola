@@ -107,6 +107,9 @@ class Program
         Console.WriteLine("Cartella giocatore 1");
         for (int i = 0; i < 5; i++)
         {
+            xCart1 = 7;
+            yCart1++;
+            Console.WriteLine();
             if (i % 2 == 1)
             {
                 Console.SetCursorPosition(xCart1, yCart1);
@@ -117,9 +120,9 @@ class Program
                 Console.SetCursorPosition(xCart1, yCart1);
                 for (int j = 0; j < 9; j++)
                 {
-                    if (cartella1[i, (j / 2) + (j % 2)] != 0)
+                    if (cartella1[j, i] != 0)
                     {
-                        Console.Write(cartella1[i, (j / 2) + (j % 2)].ToString("D2") + " ");
+                        Console.Write(cartella1[i, j].ToString("D2") + " ");
                     }
                     else
                     {
@@ -129,12 +132,11 @@ class Program
                         }
                         else
                         {
-                            Console.Write("  ");
+                            Console.Write("   ");
                         }
                     }
                 }
             }
-            yCart1++;
         }
     }
 
