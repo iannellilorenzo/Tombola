@@ -6,12 +6,12 @@ class Program
 {
     static void Main()
     {
-
         // Dichiarazione variabili
-        int righeCart = 3, colonneCart = 9, righeTab = 9, colonneTab = 10;
+        int righeCart = 9, colonneCart = 3, righeTab = 9, colonneTab = 10;
         int min = 1, max = 90, numTab = 1;
-        int xTab = 45, yTab = 1, xCart1 = 7, yCart1 = 12, xCart2 = 77, yCart2 = 12, xEstraz = 0, yEstraz = 0;
-        int estraz = 0, xT = 0, yT = 0, lamp = 50;
+        int xTab = 45, yTab = 1, xCart1 = 11, yCart1 = 12, xCart2 = 77, yCart2 = 12, xEstraz = 0, yEstraz = 0;
+        int estraz = 0, xT = 0, yT = 0, lamp = 0;
+        int contEstraz = 0;
 
         // Dichiarazione matrici
         int[,] tabellone = new int[righeTab, colonneTab];
@@ -24,28 +24,28 @@ class Program
         Console.ForegroundColor = ConsoleColor.Red;
 
         // Invoco funzione di stampa del tabellone
-        tab(tabellone, righeTab, colonneTab, xTab, yTab, numTab);
-
-        // Colore carrattere bianco (cartella1 e cartella2)
-        Console.ForegroundColor = ConsoleColor.White;
+        Tab(tabellone, righeTab, colonneTab, xTab, yTab, numTab);
 
         // Invoco funzione di generazione della cartella giocatore 1
-        genCart1(cartella1, min, max);
+        GenCart1(cartella1, min, max);
 
         // Invoco funzione di stampa della cartella giocatore 1
-        cart1(cartella1, righeCart, colonneCart, xCart1, yCart1, min, max);
+        Cart1(cartella1, xCart1, yCart1, min, max);
+
+        // Invoco funzione di generazione della cartella giocatore 2
+        GenCart2(cartella1, min, max);
 
         // Invoco funzione di stampa della cartella giocatore 2
-        cart2(cartella2, righeCart, colonneCart, xCart2, yCart2, min, max);
+        Cart2(cartella2, xCart2, yCart2, min, max);
 
         // Invoco funzione di stampa di numeri estratti
-        stampaEstraz(estraz, lamp, xT, yT, xTab, yTab, min, max);
+        StampaEstraz(estraz, lamp, xT, yT, xTab, yTab, min, max);
 
         Console.ReadKey();
     }
 
     // Funzione stampa tabellone
-    static void tab(int[,] tabellone, int righeTab, int colonneTab, int xTab, int yTab, int numTab)
+    static void Tab(int[,] tabellone, int righeTab, int colonneTab, int xTab, int yTab, int numTab)
     {
         for (int i = 0; i < righeTab; i++)
         {
@@ -53,19 +53,21 @@ class Program
             Console.SetCursorPosition(xTab, yTab);
             for (int j = 0; j < colonneTab; j++)
             {
-                tabellone[i, j] = numTab++;
+                tabellone[i, j] = numTab;
                 Console.Write(tabellone[i, j].ToString("D2") + " ");
+                numTab++;
             }
             yTab++;
         }
     }
 
     // Funzione generazione della cartella giocatore 1
-    static void genCart1(int[,] cartella1, int min, int max)
+    static void GenCart1(int[,] cartella1, int min, int max)
     {
+        Console.ForegroundColor = ConsoleColor.White;
         Random random = new Random();
         bool[] array = new bool[90];
-        int salva;
+        int salva1;
 
         for (int i = 0; i < 3; i++)
         {
@@ -74,61 +76,61 @@ class Program
             {
                 do
                 {
-                    salva = random.Next(min, max + 1);
-                    if (salva == 90)
+                    salva1 = random.Next(min, max + 1);
+                    if (salva1 == 90)
                     {
                         j--;
                     }
-                } while (array[salva - 1] == true || array2[salva / 10] == true);
+                } while (array[salva1 - 1] == true || array2[salva1 / 10] == true);
 
-                array[salva - 1] = true;
-                array2[salva / 10] = true;
+                array[salva1 - 1] = true;
+                array2[salva1 / 10] = true;
 
-                if (salva == 90)
+                if (salva1 == 90)
                 {
-                    cartella1[i, 8] = 90;
+                    cartella1[8, i] = 90;
                 }
                 else
                 {
-                    cartella1[i, salva / 10] = salva;
+                    cartella1[salva1 / 10, i] = salva1;
                 }
             }
-            for (int k = 0; k < 9; k++)
+            for (int j = 0; j < 9; j++)
             {
-                array2[k] = false;
+                array2[j] = false;
             }
         }
     }
 
     // Funzione di stampa cartella giocatore 1
-    static void cart1(int[,] cartella1, int righeCart, int colonneCart, int xCart1, int yCart1, int min, int max)
+    static void Cart1(int[,] cartella1, int xCart1, int yCart1, int min, int max)
     {
         Console.SetCursorPosition(14, 11);
         Console.WriteLine("Cartella giocatore 1");
         for (int i = 0; i < 5; i++)
         {
-            xCart1 = 7;
+            xCart1 = 11;
             yCart1++;
             Console.WriteLine();
             if (i % 2 == 1)
             {
-                Console.SetCursorPosition(xCart1, yCart1);
-                Console.WriteLine("----------------------");
+                Console.SetCursorPosition(xCart1 - 1, yCart1);
+                Console.WriteLine("----------------------------");
             }
             else
             {
                 Console.SetCursorPosition(xCart1, yCart1);
                 for (int j = 0; j < 9; j++)
                 {
-                    if (cartella1[j, i] != 0)
+                    if (cartella1[j, i / 2 + i % 2] != 0)
                     {
-                        Console.Write(cartella1[i, j].ToString("D2") + " ");
+                        Console.Write(cartella1[j, i / 2 + i % 2].ToString("D2") + " ");
                     }
                     else
                     {
-                        if (i == 0)
+                        if (j == 0)
                         {
-                            Console.Write("  ");
+                            Console.Write("   ");
                         }
                         else
                         {
@@ -141,11 +143,13 @@ class Program
     }
 
     // Funzione generazione della cartella giocatore 2
-    static void genCart2(int[,] cartella2, int min, int max)
+    static void GenCart2(int[,] cartella2, int min, int max)
     {
+        Console.ForegroundColor = ConsoleColor.White;
         Random random = new Random();
         bool[] array = new bool[90];
-        int salva;
+        int salva2;
+
         for (int i = 0; i < 3; i++)
         {
             bool[] array2 = new bool[10];
@@ -153,54 +157,74 @@ class Program
             {
                 do
                 {
-                    salva = random.Next(min, max + 1);
-                    if (salva == 90)
+                    salva2 = random.Next(min, max + 1);
+                    if (salva2 == 90)
                     {
                         j--;
                     }
-                } while (array[salva - 1] == true || array2[salva / 10] == true);
+                } while (array[salva2 - 1] == true || array2[salva2 / 10] == true);
 
-                array[salva - 1] = true;
-                array2[salva / 10] = true;
+                array[salva2 - 1] = true;
+                array2[salva2 / 10] = true;
 
-                if (salva == 90)
+                if (salva2 == 90)
                 {
-                    cartella2[i, 8] = 90;
+                    cartella2[8, i] = 90;
                 }
                 else
                 {
-                    cartella2[i, salva / 10] = salva;
+                    cartella2[salva2 / 10, i] = salva2;
                 }
             }
-            for (int k = 0; k < 9; k++)
+            for (int j = 0; j < 9; j++)
             {
-                array2[k] = false;
+                array2[j] = false;
             }
         }
     }
 
     // Funzione di stampa cartella giocatore 2
-    static void cart2(int[,] cartella2, int righeCart, int colonneCart, int xCart2, int yCart2, int min, int max)
+    static void Cart2(int[,] cartella2, int xCart2, int yCart2, int min, int max)
     {
-        Random random = new Random();
         Console.SetCursorPosition(84, 11);
         Console.WriteLine("Cartella giocatore 2");
-
-        for (int i = 0; i < righeCart; i++)
+        for (int i = 0; i < 5; i++)
         {
-            Console.WriteLine();
-            Console.SetCursorPosition(xCart2, yCart2);
-            for (int j = 0; j < colonneCart; j++)
-            {
-                cartella2[i, j] = random.Next(min, max + 1);
-                Console.Write(cartella2[i, j].ToString("D2") + "  ");
-            }
+            xCart2 = 77;
             yCart2++;
+            Console.WriteLine();
+            if (i % 2 == 1)
+            {
+                Console.SetCursorPosition(xCart2 - 1, yCart2);
+                Console.WriteLine("----------------------------");
+            }
+            else
+            {
+                Console.SetCursorPosition(xCart2, yCart2);
+                for (int j = 0; j < 9; j++)
+                {
+                    if (cartella2[j, i / 2 + i % 2] != 0)
+                    {
+                        Console.Write(cartella2[j, i / 2 + i % 2].ToString("D2") + " ");
+                    }
+                    else
+                    {
+                        if (j == 0)
+                        {
+                            Console.Write("   ");
+                        }
+                        else
+                        {
+                            Console.Write("   ");
+                        }
+                    }
+                }
+            }
         }
     }
 
     // Funzione estrazione dei numeri
-    static int estrazione(int min, int max)
+    static int Estrazione(int min, int max)
     {
         int numEstratto;
         Random random = new Random();
@@ -216,7 +240,7 @@ class Program
     }
 
     // Funzione coordinata x del tabellone
-    static int xTabellone (int estraz, int xTab)
+    static int Xtabellone (int estraz, int xTab)
     {
         int x;
 
@@ -240,7 +264,7 @@ class Program
     }
 
     // Funzione coordinata y del tabellone
-    static int yTabellone(int estraz, int yTab)
+    static int Ytabellone(int estraz, int yTab)
     {
         int y;
 
@@ -264,18 +288,18 @@ class Program
     }
 
     // Funzione stampa dei numeri estratti
-    static void stampaEstraz (int estraz, int lamp, int xT, int yT, int xTab, int yTab,int min, int max)
+    static void StampaEstraz (int estraz, int lamp, int xT, int yT, int xTab, int yTab,int min, int max)
     {
         for (int i = 0; i < 90; i++)
         {
             // Invoco funzione di estrazione dei numeri
-            estraz = estrazione(min, max);
+            estraz = Estrazione(min, max);
 
             // Invoco funzione per conoscere le coordinate x del tabellone
-            xT = xTabellone(estraz, xTab);
+            xT = Xtabellone(estraz, xTab);
 
             // Invoco funzione per conoscere le coordinate y del tabellone
-            yT = yTabellone(estraz, yTab);
+            yT = Ytabellone(estraz, yTab);
 
             for (int j = 0; j < 2; j++)
             {
@@ -305,5 +329,41 @@ class Program
                 Console.Write(estraz.ToString("D2"));         // Stampa del numero estratto
             }
         }
+    }
+
+    // Funzione di visualizzazione dei numeri estratti per la cartella 1
+    static int VisEstraz (int xCart1, int yCart1, int estraz, int contEstraz, int[,] cartella1)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 9; j++)
+            {
+                if (cartella1[j, i] == estraz)
+                {
+                    if (j == 0)
+                    {
+                        xCart1 = 0;
+                    }
+                    else
+                    {
+                        xCart1 += j * 3 - 1;
+                    }
+
+                    yCart1 += j * 2;
+                    contEstraz++;
+                    Console.SetCursorPosition(xCart1, yCart1);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine(estraz);
+                    
+                    if (contEstraz == 15)
+                    {
+                        Console.Clear();
+                        Console.SetCursorPosition(40, 12);
+                        Console.WriteLine("Il giocatore 1 ha fatto tombola!");
+                    }
+                }
+            }
+        }
+        return 0;
     }
 }
