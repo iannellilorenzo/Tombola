@@ -6,7 +6,6 @@ class Program
 {
     static void Main()
     {
-
         Console.CursorVisible = false;
 
         // Dichiarazione variabili
@@ -17,7 +16,7 @@ class Program
         int contEstraz1 = 0, contEstraz2 = 0, contEstraz10 = 0, contEstraz20 = 0;
 
         // Dichiarazione matrici
-        int[,] tabellone = new int[righeTab, colonneTab];
+        int[,] tabellone = new int[9, 10];
         int[,] cartella1 = new int[righeCart, colonneCart];
         int[,] cartella2 = new int[righeCart, colonneCart];
 
@@ -30,7 +29,7 @@ class Program
         Console.ForegroundColor = ConsoleColor.Red;
 
         // Invoco funzione di stampa del tabellone
-        Tab(tabellone, righeTab, colonneTab, xTab, yTab, numTab);
+        Tab(tabellone, xTab, yTab, numTab);
 
         // Invoco funzione di stampa della cartella giocatore 1
         Cart1(cartella1, xCart1, yCart1);
@@ -44,14 +43,24 @@ class Program
         Console.ReadKey();
     }
 
-    // Funzione stampa tabellone
-    static void Tab(int[,] tabellone, int righeTab, int colonneTab, int xTab, int yTab, int numTab)
+    #region funzioni
+
+    /// <summary>
+    /// Funzione stampa tabellone
+    /// </summary>
+    /// <param name="tabellone"> Matrice usata come tabellone della tombola </param>
+    /// <param name="righeTab">  </param>
+    /// <param name="colonneTab"></param>
+    /// <param name="xTab"></param>
+    /// <param name="yTab"></param>
+    /// <param name="numTab"></param>
+    static void Tab(int[,] tabellone, int xTab, int yTab, int numTab)
     {
-        for (int i = 0; i < righeTab; i++)
+        for (int i = 0; i < 9; i++)
         {
             Console.WriteLine();
             Console.SetCursorPosition(xTab, yTab);
-            for (int j = 0; j < colonneTab; j++)
+            for (int j = 0; j < 10; j++)
             {
                 tabellone[i, j] = numTab++;
                 Console.Write(tabellone[i, j].ToString("D2") + " ");
@@ -60,7 +69,12 @@ class Program
         }
     }
 
-    // Funzione di stampa cartella giocatore 1
+    /// <summary>
+    /// Funzione di stampa cartella giocatore 1
+    /// </summary>
+    /// <param name="cartella1"> Cartella del primo giocatore </param>
+    /// <param name="xCart1"> Coordinata x della cartella del primo giocatore </param>
+    /// <param name="yCart1"> Coordinata y della cartella del primo giocatore </param>
     static void Cart1(int[,] cartella1, int xCart1, int yCart1)
     {
         Console.ForegroundColor = ConsoleColor.White;
@@ -138,7 +152,12 @@ class Program
         }
     }
 
-    // Funzione di generazione e stampa cartella giocatore 2
+    /// <summary>
+    /// Funzione di generazione e stampa cartella giocatore 2
+    /// </summary>
+    /// <param name="cartella2"> Cartella del secondo giocatore </param>
+    /// <param name="xCart2"> Coordinata x della cartella del secondo giocatore </param>
+    /// <param name="yCart2"> Coordinata y dalla cartella del secondo giocatore </param>
     static void Cart2(int[,] cartella2, int xCart2, int yCart2)
     {
         Console.ForegroundColor = ConsoleColor.White;
@@ -216,7 +235,13 @@ class Program
         }
     }
 
-    // Funzione estrazione dei numeri
+    /// <summary>
+    /// Funzione estrazione dei numeri
+    /// </summary>
+    /// <param name="min"> Determina il minimo numero estraibile </param>
+    /// <param name="max"> Determina il massimo numero estraibile </param>
+    /// <param name="array"> Array di appoggio per controllare che un numero venga estratto più di una volta </param>
+    /// <returns> numEstratto </returns>
     static int Estrazione(int min, int max, bool[] array)
     {
         int numEstratto;
@@ -231,7 +256,12 @@ class Program
         return numEstratto;
     }
 
-    // Funzione coordinata x del tabellone
+    /// <summary>
+    /// Funzione coordinata x del tabellone
+    /// </summary>
+    /// <param name="estraz"> Numero estratto dalla funzione Estrazione </param>
+    /// <param name="xTab"> Coordinata x del tabellone </param>
+    /// <returns> x </returns>
     static int Xtabellone (int estraz, int xTab)
     {
         int x;
@@ -255,7 +285,12 @@ class Program
         return x;
     }
 
-    // Funzione coordinata y del tabellone
+    /// <summary>
+    /// Funzione per trovare la coordinata y del tabellone
+    /// </summary>
+    /// <param name="estraz"> Numero estratto dalla funzione Estrazione </param>
+    /// <param name="yTab"> Coordinata y del tabellone </param>
+    /// <returns> y </returns>
     static int Ytabellone(int estraz, int yTab)
     {
         int y;
@@ -279,8 +314,107 @@ class Program
         return y;
     }
 
-    // Funzione stampa dei numeri estratti
-    static void StampaEstraz (int estraz, int xT, int yT, int xTab, int yTab, int min, int max, int lamp, int contEstraz1, int contEstraz2, int xCart1, int yCart1, int xCart2, int yCart2, int contEstraz10, int contEstraz20, int[,] cartella1, int[,] cartella2, bool[] array)
+    /// <summary>
+    /// Funzione di visualizzazione dei numeri estratti per la cartella 1
+    /// </summary>
+    /// <param name="xCart1"> Coordinata x della cartella 1 </param>
+    /// <param name="yCart1"> Coordinata y della cartella 1 </param>
+    /// <param name="estraz"> Numero estratto che verrà ristampato verde </param>
+    /// <param name="contEstraz1"> Contatore per determinare la vittoria del primo giocatore </param>
+    /// <param name="cartella1"> Cartella del primo giocatore </param>
+    /// <returns> contEstraz1 </returns>
+    static int VisEstraz1 (int xCart1, int yCart1, int estraz, int contEstraz1, int[,] cartella1)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            xCart1 = 12;
+            yCart1 = 13;
+            for (int j = 0; j < 9; j++)
+            {
+                if (cartella1[j, i] == estraz)
+                {
+                    if (j != 0)
+                    {
+                        xCart1 += j * 3 - 1;
+                    }
+                    else
+                    {
+                        xCart1 -= 1;
+                    }
+
+                    yCart1 += i * 2;
+                    contEstraz1 += 1;
+                    Console.SetCursorPosition(xCart1, yCart1);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine(estraz.ToString("D2"));
+                }
+            }
+        }
+        return contEstraz1;
+    }
+
+    /// <summary>
+    /// Funzione di visualizzazione dei numeri estratti per la cartella 2
+    /// </summary>
+    /// <param name="xCart2"> Coordinata x della cartella 2 </param>
+    /// <param name="yCart2"> Coordinata y della cartella 2 </param>
+    /// <param name="estraz"> Numero estratto che verrà ristampato verde </param>
+    /// <param name="contEstraz2"> Contatore per determinare la vittoria del secondo giocatore </param>
+    /// <param name="cartella2"> Cartella del secondo giocatore </param>
+    /// <returns> contEstraz2 </returns>
+    static int VisEstraz2 (int xCart2, int yCart2, int estraz, int contEstraz2, int[,] cartella2)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            xCart2 = 83;
+            yCart2 = 13;
+            for (int j = 0; j < 9; j++)
+            {
+                if (cartella2[j, i] == estraz)
+                {
+                    if (j != 0)
+                    {
+                        xCart2 += j * 3 - 1;
+                    }
+                    else
+                    {
+                        xCart2 -= 1;
+                    }
+
+                    yCart2 += i * 2;
+                    contEstraz2++;
+                    Console.SetCursorPosition(xCart2, yCart2);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine(estraz.ToString("D2"));
+                }
+            }
+        }
+        return contEstraz2;
+    }
+
+    /// <summary>
+    /// Funzione stampa dei numeri estratti
+    /// </summary>
+    /// <param name="estraz"> Variabile usata per salvare il valore della funzione Estrazione </param>
+    /// <param name="xT"> Variabile usata per salvare il valore della funzione Xtabellone </param>
+    /// <param name="yT"> Variabile usata per salvare il valore della funzione Ytabellone </param>
+    /// <param name="xTab"> Parametro passato per sostenere le altre funzioni </param>
+    /// <param name="yTab"> Parametro passato per sostenere le altre funzioni </param>
+    /// <param name="min"> Parametro passato per sostenere le altre funzioni </param>
+    /// <param name="max"> Parametro passato per sostenere le altre funzioni </param>
+    /// <param name="lamp"> Variabile per far lampeggiare i numeri estratti ad uno stesso intervallo  </param>
+    /// <param name="contEstraz1"> Parametro passato per sostenere le altre funzioni </param>
+    /// <param name="contEstraz2"> Parametro passato per sostenere le altre funzioni </param>
+    /// <param name="xCart1"> Parametro passato per sostenere le altre funzioni </param>
+    /// <param name="yCart1"> Parametro passato per sostenere le altre funzioni </param>
+    /// <param name="xCart2"> Parametro passato per sostenere le altre funzioni </param>
+    /// <param name="yCart2"> Parametro passato per sostenere le altre funzioni </param>
+    /// <param name="contEstraz10"> Variabile usata per salvare il valore della funzione VisEstraz1 </param>
+    /// <param name="contEstraz20"> Variabile usata per salvare il valore della funzione VisEstraz2 </param>
+    /// <param name="cartella1"> Parametro passato per sostenere le altre funzioni </param>
+    /// <param name="cartella2"> Parametro passato per sostenere le altre funzioni </param>
+    /// <param name="array"> Parametro passato per sostenere le altre funzioni </param>
+    static void StampaEstraz(int estraz, int xT, int yT, int xTab, int yTab, int min, int max, int lamp, int contEstraz1, int contEstraz2, int xCart1, int yCart1, int xCart2, int yCart2, int contEstraz10, int contEstraz20, int[,] cartella1, int[,] cartella2, bool[] array)
     {
         for (int i = 0; i < 90; i++)
         {
@@ -351,65 +485,5 @@ class Program
         }
     }
 
-    // Funzione di visualizzazione dei numeri estratti per la cartella 1
-    static int VisEstraz1 (int xCart1, int yCart1, int estraz, int contEstraz1, int[,] cartella1)
-    {
-        for (int i = 0; i < 3; i++)
-        {
-            xCart1 = 12;
-            yCart1 = 13;
-            for (int j = 0; j < 9; j++)
-            {
-                if (cartella1[j, i] == estraz)
-                {
-                    if (j != 0)
-                    {
-                        xCart1 += j * 3 - 1;
-                    }
-                    else
-                    {
-                        xCart1 -= 1;
-                    }
-
-                    yCart1 += i * 2;
-                    contEstraz1++;
-                    Console.SetCursorPosition(xCart1, yCart1);
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine(estraz.ToString("D2"));
-                }
-            }
-        }
-        return contEstraz1;
-    }
-
-    // Funzione di visualizzazione dei numeri estratti per la cartella 2
-    static int VisEstraz2 (int xCart2, int yCart2, int estraz, int contEstraz2, int[,] cartella2)
-    {
-        for (int i = 0; i < 3; i++)
-        {
-            xCart2 = 83;
-            yCart2 = 13;
-            for (int j = 0; j < 9; j++)
-            {
-                if (cartella2[j, i] == estraz)
-                {
-                    if (j != 0)
-                    {
-                        xCart2 += j * 3 - 1;
-                    }
-                    else
-                    {
-                        xCart2 -= 1;
-                    }
-
-                    yCart2 += i * 2;
-                    contEstraz2++;
-                    Console.SetCursorPosition(xCart2, yCart2);
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine(estraz.ToString("D2"));
-                }
-            }
-        }
-        return contEstraz2;
-    }
+    #endregion funzioni
 }
